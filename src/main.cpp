@@ -84,20 +84,13 @@ namespace espConfig
     bool gpioActionEnable = GPIO_ACTION_ENABLE;
     uint8_t gpioActionPin = GPIO_ACTION_PIN;
     uint8_t gpioInputPin = GPIO_INPUT_PIN;
-<<<<<<< Updated upstream
-=======
     uint8_t gpioBuzzerPin = GPIO_BUZZER_PIN;
->>>>>>> Stashed changes
     bool gpioActionLockState = GPIO_ACTION_LOCK_STATE;
     bool gpioActionUnlockState = GPIO_ACTION_UNLOCK_STATE;
   } miscConfig;
 }
 JSONCONS_ALL_MEMBER_TRAITS(espConfig::mqttConfig_t, mqttBroker, mqttPort, mqttUsername, mqttPassword, mqttClientId, hkTopic, lockStateTopic, lockStateCmd, lockCStateCmd, lockTStateCmd, inputTopic, lockCustomStateTopic, lockCustomStateCmd, lockEnableCustomState, hassMqttDiscoveryEnabled, customLockStates, customLockActions)
-<<<<<<< Updated upstream
-JSONCONS_ALL_MEMBER_TRAITS(espConfig::misc_config_t, deviceName, hk_key_color, lockAlwaysUnlock, lockAlwaysLock, controlPin, hsStatusPin, nfcSuccessPin, nfcNeopixelPin, nfcSuccessHL, nfcFailPin, nfcFailHL, gpioActionEnable, gpioActionPin, gpioActionLockState, gpioActionUnlockState, gpioInputPin, otaPasswd, setupCode)
-=======
 JSONCONS_ALL_MEMBER_TRAITS(espConfig::misc_config_t, deviceName, hk_key_color, lockAlwaysUnlock, lockAlwaysLock, controlPin, hsStatusPin, nfcSuccessPin, nfcNeopixelPin, nfcSuccessHL, nfcFailPin, nfcFailHL, gpioActionEnable, gpioActionPin, gpioActionLockState, gpioActionUnlockState, gpioInputPin, gpioBuzzerPin, otaPasswd, setupCode)
->>>>>>> Stashed changes
 
 KeyFlow hkFlow = KeyFlow::kFlowFAST;
 SpanCharacteristic* lockCurrentState;
@@ -685,12 +678,9 @@ String miscHtmlProcess(const String& var) {
   else if (var == "GPIOINPIN") {
     return String(espConfig::miscConfig.gpioInputPin);
   }
-<<<<<<< Updated upstream
-=======
   else if (var == "GPIOBUZPIN") {
     return String(espConfig::miscConfig.gpioBuzzerPin);
   }
->>>>>>> Stashed changes
   else if (var == "HWFINISH") {
     return String(espConfig::miscConfig.hk_key_color);
   }
@@ -979,12 +969,9 @@ void setupWeb() {
       else if (!strcmp(p->name().c_str(), "gpio-in-pin")) {
         espConfig::miscConfig.gpioInputPin = p->value().toInt();
       }
-<<<<<<< Updated upstream
-=======
       else if (!strcmp(p->name().c_str(), "gpio-buz-pin")) {
         espConfig::miscConfig.gpioBuzzerPin = p->value().toInt();
       }
->>>>>>> Stashed changes
       else if (!strcmp(p->name().c_str(), "hk-hwfinish")) {
         espConfig::miscConfig.hk_key_color = p->value().toInt();
       }
@@ -1183,17 +1170,6 @@ void nfc_thread_entry(void* arg) {
 }
 
 void success_tone() {
-<<<<<<< Updated upstream
-  tone(26, 600, 250);
-  tone(26, 600, 100);
-  tone(26, 800, 250);
-}
-
-void fail_tone() {
-  tone(26, 600, 250);
-  tone(26, 600, 100);
-  tone(26, 400, 250);
-=======
   tone(espConfig::miscConfig.gpioBuzzerPin, 600, 250);
   tone(espConfig::miscConfig.gpioBuzzerPin, 600, 100);
   tone(espConfig::miscConfig.gpioBuzzerPin, 800, 250);
@@ -1203,7 +1179,6 @@ void fail_tone() {
   tone(espConfig::miscConfig.gpioBuzzerPin, 600, 250);
   tone(espConfig::miscConfig.gpioBuzzerPin, 600, 100);
   tone(espConfig::miscConfig.gpioBuzzerPin, 400, 250);
->>>>>>> Stashed changes
 }
 
 void gpio_task(void* arg) {
@@ -1215,7 +1190,6 @@ void gpio_task(void* arg) {
         xQueueReceive(gpio_led_handle, &status, 0);
         if (status) {
           if (espConfig::miscConfig.nfcSuccessPin && espConfig::miscConfig.nfcSuccessPin != 255) {
-            success_tone();
             digitalWrite(espConfig::miscConfig.nfcSuccessPin, espConfig::miscConfig.nfcSuccessHL);
             delay(espConfig::miscConfig.nfcSuccessTime);
             digitalWrite(espConfig::miscConfig.nfcSuccessPin, !espConfig::miscConfig.nfcSuccessHL);
@@ -1232,7 +1206,6 @@ void gpio_task(void* arg) {
           }
         } else {
           if (espConfig::miscConfig.nfcFailPin && espConfig::miscConfig.nfcFailPin != 255) {
-            fail_tone();
             digitalWrite(espConfig::miscConfig.nfcFailPin, espConfig::miscConfig.nfcFailHL);
             delay(espConfig::miscConfig.nfcFailTime);
             digitalWrite(espConfig::miscConfig.nfcFailPin, !espConfig::miscConfig.nfcFailHL);
@@ -1333,12 +1306,9 @@ void setup() {
   if (espConfig::miscConfig.gpioInputPin && espConfig::miscConfig.gpioInputPin != 255) {
     pinMode(espConfig::miscConfig.gpioInputPin, INPUT_PULLUP);
   }
-<<<<<<< Updated upstream
-=======
   if (espConfig::miscConfig.gpioBuzzerPin && espConfig::miscConfig.gpioBuzzerPin != 255) {
     pinMode(espConfig::miscConfig.gpioBuzzerPin, OUTPUT);
   }
->>>>>>> Stashed changes
   if (!LittleFS.begin(true)) {
     Serial.println("An Error has occurred while mounting LITTLEFS");
     return;
