@@ -64,3 +64,4 @@ enum customLockActions
 #define GPIO_ACTION_LOCK_STATE LOW
 #define GPIO_ACTION_UNLOCK_STATE HIGH
 #define GPIO_INPUT_PIN 255 // GPIO 25 is free and has pull-up resistor on almost all ESP32
+#define GPIO_BUZZER_PIN 255 // GPIO Pin (17) used for Buzzer
